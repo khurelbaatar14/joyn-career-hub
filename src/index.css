@@ -6,25 +6,20 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Hide traditional script and labels on map */
-.leaflet-container text,
-.leaflet-control-attribution {
-  display: none !important;
-}
-
-.leaflet-tile img {
-  filter: contrast(1.1) brightness(1.05);
-}
-
 /* Custom Leaflet marker styles */
 .custom-marker {
   background: transparent !important;
   border: none !important;
 }
 
+/* Hide Leaflet attribution */
+.leaflet-control-attribution {
+  display: none !important;
+}
+
 /* Leaflet popup styling for compact size */
 .leaflet-popup-content-wrapper {
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
@@ -47,34 +42,34 @@
   font-family: inherit;
 }
 
-/* Base layer styles */
+/* Base layer styles with grey background and black theme */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 0 0% 96%;
+    --foreground: 0 0% 0%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 0%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 90%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 0 0% 90%;
+    --accent-foreground: 0 0% 0%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    --border: 214.3 31.8% 88%;
+    --input: 0 0% 100%;
+    --ring: 0 0% 0%;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 
   .dark {
@@ -84,8 +79,8 @@
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 84% 4.9%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
@@ -96,7 +91,7 @@
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
+    --ring: 0 0% 0%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -114,17 +109,62 @@
   }
 }
 
-/* Custom utility classes */
+/* Custom utility classes with black theme and rounded buttons */
 @layer components {
   .btn-brand {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+    @apply bg-black text-white hover:bg-black/90 rounded-xl;
   }
   
   .text-brand {
-    @apply text-primary;
+    @apply text-black;
   }
   
   .border-brand {
-    @apply border-primary;
+    @apply border-black;
+  }
+
+  /* Override default button styles for black theme */
+  .btn,
+  button {
+    @apply rounded-xl;
+  }
+
+  /* Card styles to match the clean look */
+  .card {
+    @apply rounded-xl shadow-sm;
+  }
+
+  /* Input styles */
+  .input {
+    @apply rounded-xl;
+  }
+
+  /* Badge styles with more rounded corners */
+  .badge {
+    @apply rounded-full;
+  }
+}
+
+/* Additional black theme utilities */
+@layer utilities {
+  .bg-black-primary {
+    background-color: hsl(0 0% 0%);
+  }
+  
+  .text-black-primary {
+    color: hsl(0 0% 0%);
+  }
+  
+  .border-black-primary {
+    border-color: hsl(0 0% 0%);
+  }
+
+  /* Rounded button variants */
+  .rounded-button {
+    @apply rounded-xl px-4 py-2 transition-all duration-200;
+  }
+
+  .rounded-button-lg {
+    @apply rounded-xl px-6 py-3 transition-all duration-200;
   }
 }

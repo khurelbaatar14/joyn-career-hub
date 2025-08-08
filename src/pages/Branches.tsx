@@ -187,9 +187,9 @@ export default function Branches() {
     </div>
   );
 
-  // Create custom icon for urgent positions
+  // Create custom icon for urgent positions with green theme
   const createCustomIcon = (isUrgent: boolean, positionCount: number) => {
-    const color = isUrgent ? '#ef4444' : '#10b981';
+    const color = isUrgent ? '#ef4444' : '#2d7d2d'; // Keep red for urgent, use darker green for normal
     const html = `
       <div style="
         background-color: ${color};
@@ -226,10 +226,10 @@ export default function Branches() {
           center={userLocation ? [userLocation.lat, userLocation.lng] : [47.9184, 106.9177]}
           zoom={userLocation ? 13 : 11}
           style={{ height: '100%', width: '100%' }}
+          attributionControl={false}
         >
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            url="https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png"
           />
           
           {/* User location marker */}
@@ -252,45 +252,45 @@ export default function Branches() {
                 position={[store.lat, store.lng]}
                 icon={createCustomIcon(hasUrgentPosition, store.positions.length)}
               >
-                <Popup maxWidth={300}>
-                  <div className="space-y-2">
+                <Popup maxWidth={250} minWidth={200}>
+                  <div className="space-y-3">
                     <div>
-                      <h3 className="font-semibold text-lg">{store.name}</h3>
-                      <p className="text-sm text-gray-600 flex items-center gap-1">
+                      <h3 className="font-semibold text-base leading-tight">{store.name}</h3>
+                      <p className="text-xs text-gray-600 flex items-center gap-1 mt-1">
                         <MapPin className="h-3 w-3" />
                         {store.address}
                       </p>
                       {store.distance && (
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-gray-500 mt-1">
                           Зай: {store.distance.toFixed(1)}км
                         </p>
                       )}
                     </div>
                     
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <p className="text-sm font-medium">Ажлын байрууд:</p>
-                      {store.positions.slice(0, 3).map((position) => (
+                      {store.positions.slice(0, 2).map((position) => (
                         <button
                           key={position.id}
-                          className="w-full text-left p-2 rounded border hover:bg-gray-50 transition-colors"
+                          className="w-full text-left p-2 rounded border hover:bg-gray-50 transition-colors text-sm"
                           onClick={() => {
                             handlePositionSelect(store, position);
                           }}
                         >
                           <div className="flex items-center justify-between">
-                            <span className="font-medium text-sm">{position.title}</span>
+                            <span className="font-medium">{position.title}</span>
                             {position.urgent && (
-                              <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">
+                              <span className="text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded">
                                 Яаралтай
                               </span>
                             )}
                           </div>
-                          <p className="text-xs text-gray-600">{position.salaryRange}</p>
+                          <p className="text-xs text-gray-600 mt-1">{position.salaryRange}</p>
                         </button>
                       ))}
-                      {store.positions.length > 3 && (
-                        <p className="text-xs text-gray-500 text-center">
-                          +{store.positions.length - 3} өөр ажлын байр
+                      {store.positions.length > 2 && (
+                        <p className="text-xs text-gray-500 text-center py-1">
+                          +{store.positions.length - 2} өөр ажлын байр
                         </p>
                       )}
                     </div>
@@ -305,7 +305,7 @@ export default function Branches() {
       {/* Map Legend */}
       <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-green-500 rounded-full border-2 border-white shadow-sm"></div>
+          <div className="w-4 h-4 bg-[#2d7d2d] rounded-full border-2 border-white shadow-sm"></div>
           <span>Энгийн ажлын байр</span>
         </div>
         <div className="flex items-center gap-2">
