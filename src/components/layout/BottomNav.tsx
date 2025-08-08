@@ -1,4 +1,4 @@
-import { MapPin, ListChecks, Rocket, Home } from "lucide-react";
+import { MapPin, ListChecks, MessageSquare, Home } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -6,7 +6,7 @@ const tabs = [
   { to: "/", label: "Нүүр", Icon: Home },
   { to: "/branches", label: "Салбарууд", Icon: MapPin },
   { to: "/jobs", label: "Ажлын байр", Icon: ListChecks },
-  { to: "/onboarding", label: "Онбординг", Icon: Rocket },
+  { to: "/interviews", label: "Ярилцлагууд", Icon: MessageSquare },
 ];
 
 export default function BottomNav() {

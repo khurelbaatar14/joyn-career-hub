@@ -30,7 +30,7 @@ export default function Contract() {
               <Checkbox id="agree" checked={agree} onCheckedChange={(v)=>setAgree(!!v)} />
               <label htmlFor="agree" className="text-sm">Би нөхцөлийг зөвшөөрч байна</label>
             </div>
-            <Button disabled={!name || !agree} variant="brand" onClick={()=>navigate("/onboarding")}>Гэрээг батлах</Button>
+            <Button disabled={!name || !agree} variant="brand" onClick={()=>navigate("/interviews")}>Гэрээг батлах</Button>
           </CardContent>
         </Card>
       </main>

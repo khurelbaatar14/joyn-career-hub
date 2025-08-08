@@ -11,7 +11,7 @@ import Interview from "./pages/Interview";
 import CV from "./pages/CV";
 import Schedule from "./pages/Schedule";
 import Contract from "./pages/Contract";
-import Onboarding from "./pages/Onboarding";
+import Interviews from "./pages/Interviews"; // Changed from Onboarding to Interviews
 
 const queryClient = new QueryClient();
 
@@ -29,7 +29,7 @@ const App = () => (
           <Route path="/cv" element={<CV />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/contract" element={<Contract />} />
-          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/interviews" element={<Interviews />} /> {/* Changed from /onboarding to /interviews */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
