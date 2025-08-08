@@ -58,51 +58,79 @@ const detailedJobs: DetailedJob[] = [
     experience: "1-3 жил",
     description: "Компанийн санхүүгийн тайлан, мэдээлэлд гүнзгийрүүлсэн дүн шинжилгээ хийх, үндэслэлтэй дүгнэлт гаргах.",
     requirements: [
-      "Компанийн санхүүгийн тайлан, мэдээлэлд гүнзгийрүүлсэн дүн шинжилгээ хийх",
-      "Тэсэв, санхүүгийн тааматай боловсрулах, хянах, гүйцэтгэлийг үнэлж, зэрэгт тайлбарлах",
-      "Бизнесийн орлого, зардал, ашиг ажиллагаанд тогтмол хяналт шинжилгээ хийх, сайжруулах санал боловсруулах",
-      "Удирдлагын шийдвэр гаргахад шаардлагатай нарийвчилсан санхүүгийн мэдээ, тайланг цаг тухайд нь бэлтгэх, танилцуулах"
+      "Санхүү, нягтлан бодох бүртгэлийн чиглэлээр их дээд сургууль төгссөн",
+      "Excel, PowerPoint програмыг чөлөөтэй хэрэглэдэг",
+      "Англи хэлний мэдлэгтэй",
+      "Багаар ажиллах чадвартай"
     ],
     responsibilities: [
-      "Санхүү, нягтлан болох бүртгэл, эдийн засаг эсвэл холбогдох чиглэлээр их дээд сургуулийг төгссөн",
-      "Санхүүгийн шинжилгээ, тайлагнаант, тэсэвлэлт эсвэл холбогдох чиглэлээр нэмэлт боловсролын тэмдэглэлийн эрхтэй хувиараан",
-      "MS Excel программыг гүнзгийрүүлсэн түвшинд эзэмшсэн, санхүүгийн загварчлал хийх чадвартай бөгөөд нягтлан бодох бүртгэлийн болон ERP систем дээр ажиллах байсан туршлагатай байх",
-      "Өгөгдөл дүн шинжилгээ хийх, санхүүгийн үзүүлэлтүүдийг тайлбарлах, танилцуулах өндөр чадвартай бөгөөд англи хэлний дундаас дээш түвшний мэдлэгтэй байх",
-      "Нарийн ширийн зүйлд анхаарал хандуулдаг, асуудал шийдвэрлэх өндөр чадвартай, хариуцлагатай, багаар ажиллах чадвартай байх"
+      "Санхүүгийн тайлан бэлтгэх",
+      "Орлого зарлагын дүн шинжилгээ хийх",
+      "Төсөвт хяналт тавих"
     ]
   },
   {
-    id: "admin-1",
-    title: "Захиргааны менежер",
-    company: "Газар Шим ХХК",
-    salary: "₮ 2,500,000",
-    posted: "1 сарын өмнө",
-    tags: ["Офис", "Өдөр"],
-    branchId: "ub-west",
+    id: "developer-1",
+    title: "Вэб хөгжүүлэгч",
+    company: "TechSoft LLC",
+    salary: "₮ 3,500,000",
+    posted: "2 өдрийн өмнө",
+    tags: ["Бүтэн цаг", "Зайнаас"],
+    remote: true,
+    branchId: "ub-tech",
+    location: "Улаанбаатар хот / Зайнаас",
+    employmentType: "Бүтэн цаг",
+    experience: "2-4 жил",
+    description: "Орчин үеийн вэб технологи ашиглан динамик вэбсайт, програм хөгжүүлэх.",
+    requirements: [
+      "React, Node.js туршлагатай",
+      "JavaScript, TypeScript мэддэг",
+      "Git ашиглаж чаддаг",
+      "Англи хэлний ажлын түвшинтэй"
+    ],
+    responsibilities: [
+      "Фронт-энд хөгжүүлэлт",
+      "API интеграци",
+      "Кодын чанарыг хангах"
+    ]
+  },
+  {
+    id: "manager-1",
+    title: "Борлуулалтын менежер",
+    company: "MegaMart",
+    salary: "₮ 2,800,000",
+    posted: "3 өдрийн өмнө",
+    tags: ["Бүтэн цаг"],
+    branchId: "ub-sales",
+    location: "Улаанбаатар хот",
+    employmentType: "Бүтэн цаг",
+    experience: "3-5 жил",
+    description: "Борлуулалтын багийг удирдаж, борлуулалтын зорилт биелүүлэх.",
+    requirements: [
+      "Борлуулалтын салбарт 3+ жилийн туршлагатай",
+      "Удирдлагын туршлагатай",
+      "Харилцааны өндөр чадвартай",
+      "CRM системтэй ажилласан туршлагатай"
+    ],
+    responsibilities: [
+      "Борлуулалтын багийн удирдлага",
+      "Зорилт тавих, хянах",
+      "Үйлчлүүлэгчидтэй харилцах"
+    ]
+  },
+  {
+    id: "hr-1",
+    title: "Хүний нөөцийн мэргэжилтэн",
+    company: "Global Solutions",
+    salary: "₮ 3,200,000",
+    posted: "5 өдрийн өмнө",
+    tags: ["Бүтэн цаг", "Эхлэх яаралтай"],
+    urgent: true,
+    branchId: "ub-hr",
     location: "Улаанбаатар хот",
     employmentType: "Бүтэн цаг",
     experience: "2-5 жил",
-    description: "Офисын захиргааны үйл ажиллагааг зохион байгуулах, хүний нөөцийн асуудлыг шийдвэрлэх.",
-    requirements: [
-      "Их дээд боловсролтой",
-      "Захиргааны ажилд 2-5 жилийн туршлагатай",
-      "MS Office програмуудыг сайн мэднэ",
-      "Англи хэл дундаас дээш түвшинд"
-    ]
-  },
-  {
-    id: "talent-1",
-    title: "Талент хөгжил хариуцсан менежер",
-    company: "MCS International HR",
-    salary: "Тохиролцоно",
-    posted: "1 сарын өмнө",
-    tags: ["Дадлагатай", "Remote"],
-    remote: true,
-    branchId: "ub-east",
-    location: "Алсын ажил",
-    employmentType: "Бүтэн цаг",
-    experience: "3-7 жил",
-    description: "Ажилтнуудын талентыг хөгжүүлэх, сургалт зохион байгуулах, карьерийн хөтөлбөр боловсруулах.",
+    description: "Хүний нөөцийн удирдлага, ажилтан сонгон шалгаруулалт, сургалт зохион байгуулах.",
     requirements: [
       "HR салбарт 3-7 жилийн туршлагатай",
       "Сургалт зохион байгуулсан туршлагатай",
@@ -154,45 +182,43 @@ export default function Jobs() {
         <div className="mt-4 grid gap-3">
           {filteredJobs.map((job) => (
             <Card key={job.id} className="shadow-sm hover:shadow-md transition-all duration-200">
-              {/* Minimal Header - Always Visible */}
+              {/* Minimized Header - Always Visible */}
               <CardHeader 
-                className="cursor-pointer"
+                className="cursor-pointer hover:bg-gray-50/50 transition-colors duration-200"
                 onClick={() => toggleJobExpansion(job.id)}
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                        <Building2 className="h-6 w-6 text-primary" />
-                      </div>
-                      <div className="flex-1">
-                        <CardTitle className="text-lg leading-tight">{job.title}</CardTitle>
-                        <CardDescription className="flex items-center gap-2 mt-1">
-                          <span>{job.company}</span>
-                          {job.urgent && (
-                            <Badge variant="destructive" className="text-xs">
-                              <TrendingUp className="h-3 w-3 mr-1" />
-                              Яаралтай
-                            </Badge>
-                          )}
-                        </CardDescription>
-                      </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Building2 className="h-6 w-6 text-primary" />
                     </div>
-                    
-                    {/* Quick Info - Always Visible */}
-                    <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <DollarSign className="h-4 w-4" />
-                        <span className="font-medium text-green-600">{job.salary}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="h-4 w-4" />
-                        <span>{job.posted}</span>
+                    <div className="flex-1 min-w-0">
+                      <CardTitle className="text-lg leading-tight truncate">{job.title}</CardTitle>
+                      <CardDescription className="flex items-center gap-2 mt-1 flex-wrap">
+                        <span className="truncate">{job.company}</span>
+                        {job.urgent && (
+                          <Badge variant="destructive" className="text-xs">
+                            <TrendingUp className="h-3 w-3 mr-1" />
+                            Яаралтай
+                          </Badge>
+                        )}
+                      </CardDescription>
+                      
+                      {/* Quick Info in minimized state */}
+                      <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <DollarSign className="h-4 w-4" />
+                          <span className="font-medium text-green-600">{job.salary}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4" />
+                          <span>{job.posted}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="flex flex-col items-end gap-2">
+                  <div className="flex items-center gap-2 flex-shrink-0">
                     {isJobExpanded(job.id) ? (
                       <ChevronUp className="h-5 w-5 text-muted-foreground" />
                     ) : (
@@ -202,21 +228,23 @@ export default function Jobs() {
                 </div>
               </CardHeader>
 
-              {/* Action Button - Always Visible */}
-              <CardContent className="pt-0 pb-4">
-                <Button 
-                  className="w-full" 
-                  size="lg"
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent card expansion when clicking button
-                    navigate(`/interview?job=${job.id}`);
-                  }}
-                >
-                  Ярилцлагад орох
-                </Button>
-              </CardContent>
+              {/* Action Button - Always Visible in minimized state */}
+              {!isJobExpanded(job.id) && (
+                <CardContent className="pt-0 pb-4">
+                  <Button 
+                    className="w-full" 
+                    size="lg"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent card expansion when clicking button
+                      navigate(`/interview?job=${job.id}`);
+                    }}
+                  >
+                    Ярилцлагад орох
+                  </Button>
+                </CardContent>
+              )}
 
-              {/* Expanded Details */}
+              {/* Expanded Details - Only visible when expanded */}
               {isJobExpanded(job.id) && (
                 <CardContent className="pt-0 pb-4 space-y-4 border-t">
                   {/* Job Info */}
@@ -252,8 +280,8 @@ export default function Jobs() {
                   {job.description && (
                     <div className="space-y-2">
                       <h4 className="font-semibold text-sm flex items-center gap-2">
-                        <span className="text-red-500">⟫</span>
-                        АЖЛЫН ШИНЖЭЭЧ
+                        <span className="text-blue-500">⟫</span>
+                        АЖЛЫН ТАЙЛБАР
                       </h4>
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {job.description}
@@ -283,7 +311,7 @@ export default function Jobs() {
                   {job.responsibilities && job.responsibilities.length > 0 && (
                     <div className="space-y-2">
                       <h4 className="font-semibold text-sm flex items-center gap-2">
-                        <span className="text-blue-500">⟫</span>
+                        <span className="text-green-500">⟫</span>
                         ҮҮРЭГ ХАРИУЦЛАГА
                       </h4>
                       <div className="space-y-2">
@@ -296,6 +324,20 @@ export default function Jobs() {
                       </div>
                     </div>
                   )}
+
+                  {/* Action Button in expanded state */}
+                  <div className="pt-2">
+                    <Button 
+                      className="w-full" 
+                      size="lg"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/interview?job=${job.id}`);
+                      }}
+                    >
+                      Ярилцлагад орох
+                    </Button>
+                  </div>
                 </CardContent>
               )}
             </Card>

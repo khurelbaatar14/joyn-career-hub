@@ -20,6 +20,7 @@ import {
   Building2, 
   Briefcase,
   ChevronRight,
+  ChevronDown,
   Globe,
   TrendingUp,
   X,
@@ -87,13 +88,242 @@ export default function Branches() {
   const handleContinue = async () => {
     if (!selectedPositions.length) return;
     
-    const success = await submitApplication();
-    if (success) {
-      navigate(`/interview?branch=${selectedPositions[0].storeId}&position=${selectedPositions[0].positionId}`);
-    }
+    // Navigate directly to AI interview instead of regular interview
+    navigate(`/interview?branch=${selectedPositions[0].storeId}&position=${selectedPositions[0].positionId}&type=ai`);
   };
 
-  const renderMainView = () => (
+  // Create custom icon for urgent positions with green theme
+  const createCustomIcon = (isUrgent: boolean, positionCount: number) => {
+    const color = isUrgent ? '#ef4444' : '#2d7d2d'; // Keep red for urgent, use darker green for normal
+    const html = `
+      <div style="
+        background-color: ${color};
+        border: 3px solid white;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        font-size: 12px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      ">
+        ${positionCount}
+      </div>
+    `;
+    
+    return L.divIcon({
+      html,
+      className: 'custom-marker',
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
+      popupAnchor: [0, -15],
+    });
+  };
+
+  const renderMapView = () => (
+    <div className="space-y-4">
+      {/* Leaflet Map Container */}
+      <div className="h-[400px] w-full rounded-xl border overflow-hidden">
+        <MapContainer
+          center={userLocation ? [userLocation.lat, userLocation.lng] : [47.9184, 106.9177]}
+          zoom={userLocation ? 13 : 11}
+          style={{ height: '100%', width: '100%' }}
+          attributionControl={false}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png"
+          />
+          
+          {/* User location marker */}
+          {userLocation && (
+            <Marker position={[userLocation.lat, userLocation.lng]}>
+              <Popup>
+                <div className="text-center">
+                  <strong>Таны байршил</strong>
+                </div>
+              </Popup>
+            </Marker>
+          )}
+          
+          {/* Store markers */}
+          {searchFilteredStores.map((store) => {
+            const hasUrgentPosition = store.positions.some(p => p.urgent);
+            return (
+              <Marker
+                key={store.id}
+                position={[store.lat, store.lng]}
+                icon={createCustomIcon(hasUrgentPosition, store.positions.length)}
+              >
+                <Popup maxWidth={250} minWidth={200}>
+                  <div className="space-y-3">
+                    <div>
+                      <h3 className="font-semibold text-base leading-tight">{store.name}</h3>
+                      <p className="text-xs text-gray-600 flex items-center gap-1 mt-1">
+                        <MapPin className="h-3 w-3" />
+                        {store.address}
+                      </p>
+                      {store.distance && (
+                        <p className="text-xs text-gray-500 mt-1">
+                          Зай: {store.distance.toFixed(1)}км
+                        </p>
+                      )}
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium">Ажлын байрууд:</p>
+                      {store.positions.slice(0, 2).map((position) => (
+                        <button
+                          key={position.id}
+                          className="w-full p-2 text-left text-xs border rounded hover:bg-gray-50 transition-colors"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePositionSelect(store, position);
+                          }}
+                          style={{
+                            marginTop: '8px',
+                            width: '100%',
+                            padding: '6px 12px',
+                            background: companyConfig?.brandColor || '#10b981',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '6px',
+                            cursor: 'pointer',
+                            fontSize: '14px',
+                            fontWeight: '500'
+                          }}
+                        >
+                          Ажлын байр харах
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </Popup>
+              </Marker>
+            );
+          })}
+        </MapContainer>
+      </div>
+    </div>
+  );
+
+  const renderListView = () => (
+    <div className="grid gap-3">
+      {searchFilteredStores.map((store) => (
+        <Card key={store.id} id={`store-${store.id}`} className="shadow-sm hover:shadow-md transition-shadow">
+          {/* Store Header - Always Visible and Clickable */}
+          <CardHeader 
+            className="pb-3 cursor-pointer hover:bg-muted/50 transition-colors"
+            onClick={() => toggleStoreExpansion(store.id.toString())}
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Building2 className="h-5 w-5 text-primary" />
+                  {store.name}
+                  {store.distance && (
+                    <Badge variant="secondary" className="ml-2 text-xs">
+                      {store.distance.toFixed(1)}км
+                    </Badge>
+                  )}
+                </CardTitle>
+                <CardDescription className="space-y-1">
+                  <div className="flex items-center gap-1">
+                    <MapPin className="h-4 w-4" />
+                    {store.address}
+                  </div>
+                  {store.phone && (
+                    <div className="flex items-center gap-1 text-xs">
+                      <Phone className="h-3 w-3" />
+                      {store.phone}
+                    </div>
+                  )}
+                  {store.hours && (
+                    <div className="flex items-center gap-1 text-xs">
+                      <Clock className="h-3 w-3" />
+                      {store.hours}
+                    </div>
+                  )}
+                </CardDescription>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <Badge variant="secondary" className="ml-2">
+                  {store.positions.length} {getTranslation('positions')}
+                </Badge>
+                {expandedStores.has(store.id.toString()) ? (
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                ) : (
+                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                )}
+              </div>
+            </div>
+            
+            {/* Quick preview of urgent positions when minimized */}
+            {!expandedStores.has(store.id.toString()) && store.positions.some(p => p.urgent) && (
+              <div className="mt-2">
+                <Badge variant="destructive" className="text-xs">
+                  <TrendingUp className="h-3 w-3 mr-1" />
+                  {getTranslation('urgentHiring')}
+                </Badge>
+              </div>
+            )}
+          </CardHeader>
+          
+          {/* Expandable Positions Section - Only visible when expanded */}
+          {expandedStores.has(store.id.toString()) && (
+            <CardContent className="pt-0 border-t">
+              <div className="space-y-3">
+                {store.positions.map((position) => (
+                  <div
+                    key={position.id}
+                    className="flex items-start justify-between p-4 rounded-lg border hover:bg-muted/50 cursor-pointer transition-colors group"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent card collapse when clicking position
+                      handlePositionSelect(store, position);
+                    }}
+                  >
+                    <div className="flex-1 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <Briefcase className="h-4 w-4 text-muted-foreground" />
+                        <span className="font-medium">{position.title}</span>
+                        {position.urgent && (
+                          <Badge variant="destructive" className="text-xs">
+                            <TrendingUp className="h-3 w-3 mr-1" />
+                            {getTranslation('urgentHiring')}
+                          </Badge>
+                        )}
+                        {position.type && (
+                          <Badge variant="outline" className="text-xs">
+                            {position.type === 'full-time' ? 'Бүтэн цаг' : 
+                             position.type === 'part-time' ? 'Хагас цаг' : 'Гэрээт'}
+                          </Badge>
+                        )}
+                      </div>
+                      
+                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                        <DollarSign className="h-3 w-3" />
+                        <span className="font-medium text-green-600">{position.salaryRange}</span>
+                      </div>
+                      
+                      {position.description && (
+                        <p className="text-sm text-muted-foreground leading-relaxed mt-2">{position.description}</p>
+                      )}
+                    </div>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors mt-1" />
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          )}
+        </Card>
+      ))}
+    </div>
+  );
+
+  const renderBrowseView = () => (
     <div className="space-y-6">
       {/* Search and Controls */}
       <div className="space-y-3">
@@ -187,241 +417,6 @@ export default function Branches() {
     </div>
   );
 
-  // Create custom icon for urgent positions with green theme
-  const createCustomIcon = (isUrgent: boolean, positionCount: number) => {
-    const color = isUrgent ? '#ef4444' : '#2d7d2d'; // Keep red for urgent, use darker green for normal
-    const html = `
-      <div style="
-        background-color: ${color};
-        border: 3px solid white;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        color: white;
-        font-size: 12px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      ">
-        ${positionCount}
-      </div>
-    `;
-    
-    return L.divIcon({
-      html,
-      className: 'custom-marker',
-      iconSize: [30, 30],
-      iconAnchor: [15, 15],
-      popupAnchor: [0, -15],
-    });
-  };
-
-  const renderMapView = () => (
-    <div className="space-y-4">
-      {/* Leaflet Map Container */}
-      <div className="h-[400px] w-full rounded-xl border overflow-hidden">
-        <MapContainer
-          center={userLocation ? [userLocation.lat, userLocation.lng] : [47.9184, 106.9177]}
-          zoom={userLocation ? 13 : 11}
-          style={{ height: '100%', width: '100%' }}
-          attributionControl={false}
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png"
-          />
-          
-          {/* User location marker */}
-          {userLocation && (
-            <Marker position={[userLocation.lat, userLocation.lng]}>
-              <Popup>
-                <div className="text-center">
-                  <strong>Таны байршил</strong>
-                </div>
-              </Popup>
-            </Marker>
-          )}
-          
-          {/* Store markers */}
-          {searchFilteredStores.map((store) => {
-            const hasUrgentPosition = store.positions.some(p => p.urgent);
-            return (
-              <Marker
-                key={store.id}
-                position={[store.lat, store.lng]}
-                icon={createCustomIcon(hasUrgentPosition, store.positions.length)}
-              >
-                <Popup maxWidth={250} minWidth={200}>
-                  <div className="space-y-3">
-                    <div>
-                      <h3 className="font-semibold text-base leading-tight">{store.name}</h3>
-                      <p className="text-xs text-gray-600 flex items-center gap-1 mt-1">
-                        <MapPin className="h-3 w-3" />
-                        {store.address}
-                      </p>
-                      {store.distance && (
-                        <p className="text-xs text-gray-500 mt-1">
-                          Зай: {store.distance.toFixed(1)}км
-                        </p>
-                      )}
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <p className="text-sm font-medium">Ажлын байрууд:</p>
-                      {store.positions.slice(0, 2).map((position) => (
-                        <button
-                          key={position.id}
-                          className="w-full text-left p-2 rounded border hover:bg-gray-50 transition-colors text-sm"
-                          onClick={() => {
-                            handlePositionSelect(store, position);
-                          }}
-                        >
-                          <div className="flex items-center justify-between">
-                            <span className="font-medium">{position.title}</span>
-                            {position.urgent && (
-                              <span className="text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded">
-                                Яаралтай
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-xs text-gray-600 mt-1">{position.salaryRange}</p>
-                        </button>
-                      ))}
-                      {store.positions.length > 2 && (
-                        <p className="text-xs text-gray-500 text-center py-1">
-                          +{store.positions.length - 2} өөр ажлын байр
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </Popup>
-              </Marker>
-            );
-          })}
-        </MapContainer>
-      </div>
-      
-      {/* Map Legend */}
-      <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-[#2d7d2d] rounded-full border-2 border-white shadow-sm"></div>
-          <span>Энгийн ажлын байр</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-red-500 rounded-full border-2 border-white shadow-sm"></div>
-          <span>Яаралтай ажлын байр</span>
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderBrowseView = () => (
-    <div className="space-y-4">
-      {renderMainView()}
-    </div>
-  );
-
-  const renderListView = () => (
-    <div className="grid gap-3">
-      {searchFilteredStores.map((store) => (
-        <Card key={store.id} id={`store-${store.id}`} className="shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader className="pb-3">
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Building2 className="h-5 w-5 text-primary" />
-                  {store.name}
-                  {store.distance && (
-                    <Badge variant="secondary" className="ml-2 text-xs">
-                      {store.distance.toFixed(1)}км
-                    </Badge>
-                  )}
-                </CardTitle>
-                <CardDescription className="space-y-1">
-                  <div className="flex items-center gap-1">
-                    <MapPin className="h-4 w-4" />
-                    {store.address}
-                  </div>
-                  {store.phone && (
-                    <div className="flex items-center gap-1 text-xs">
-                      <Phone className="h-3 w-3" />
-                      {store.phone}
-                    </div>
-                  )}
-                  {store.hours && (
-                    <div className="flex items-center gap-1 text-xs">
-                      <Clock className="h-3 w-3" />
-                      {store.hours}
-                    </div>
-                  )}
-                </CardDescription>
-              </div>
-              <Badge variant="secondary" className="ml-2">
-                {store.positions.length} {getTranslation('positions')}
-              </Badge>
-            </div>
-          </CardHeader>
-          
-          <CardContent className="pt-0">
-            {/* Positions Preview */}
-            <div className="space-y-2 mb-3">
-              {store.positions.slice(0, expandedStores.has(store.id.toString()) ? undefined : 2).map((position) => (
-                <div
-                  key={position.id}
-                  className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 cursor-pointer transition-colors group"
-                  onClick={() => handlePositionSelect(store, position)}
-                >
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <Briefcase className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">{position.title}</span>
-                      {position.urgent && (
-                        <Badge variant="destructive" className="text-xs">
-                          <TrendingUp className="h-3 w-3 mr-1" />
-                          {getTranslation('urgentHiring')}
-                        </Badge>
-                      )}
-                      {position.type && (
-                        <Badge variant="outline" className="text-xs">
-                          {position.type === 'full-time' ? 'Бүтэн цаг' : 
-                           position.type === 'part-time' ? 'Хагас цаг' : 'Гэрээт'}
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-1 mt-1 text-sm text-muted-foreground">
-                      <DollarSign className="h-3 w-3" />
-                      {position.salaryRange}
-                    </div>
-                    {position.description && expandedStores.has(store.id.toString()) && (
-                      <p className="text-xs text-muted-foreground mt-1">{position.description}</p>
-                    )}
-                  </div>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                </div>
-              ))}
-            </div>
-
-            {/* Show More/Less */}
-            {store.positions.length > 2 && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => toggleStoreExpansion(store.id.toString())}
-                className="w-full"
-              >
-                {expandedStores.has(store.id.toString()) 
-                  ? getTranslation('showLess') 
-                  : `${getTranslation('showMore')} (${store.positions.length - 2})`
-                }
-              </Button>
-            )}
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
-
   const renderSummaryView = () => (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -471,19 +466,25 @@ export default function Branches() {
         </div>
       )}
 
+      {/* Updated CTA Button - Changed to AI Interview */}
       <Button
-        className="w-full"
+        className="w-full bg-black text-white hover:bg-gray-800"
         size="lg"
         onClick={handleContinue}
         disabled={loading || !selectedPositions.length}
       >
         {loading ? (
           <div className="flex items-center gap-2">
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent" />
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
             Илгээж байна...
           </div>
         ) : (
-          getTranslation('continue')
+          <div className="flex items-center gap-2">
+            <span>AI Ярилцлага</span>
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
         )}
       </Button>
     </div>
