@@ -154,11 +154,34 @@ export const useCompanyData = (): UseCompanyDataReturn => {
             getCompanyFromSubdomain()
           );
           setStores(updatedStores);
+          console.log(' Location obtained:', location);
         },
         (error) => {
           console.warn('Geolocation error:', error);
+          // Handle different error types
+          switch(error.code) {
+            case error.PERMISSION_DENIED:
+              console.error('User denied the request for Geolocation.');
+              break;
+            case error.POSITION_UNAVAILABLE:
+              console.error('Location information is unavailable.');
+              break;
+            case error.TIMEOUT:
+              console.error('The request to get user location timed out.');
+              break;
+            default:
+              console.error('An unknown error occurred.');
+              break;
+          }
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 60000
         }
       );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
     }
   }, []);
 

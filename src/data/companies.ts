@@ -48,7 +48,7 @@ export interface SelectedPosition {
 export const COMPANY_CONFIGS: { [key: string]: CompanyConfig } = {
   'gs25': {
     companyId: 'gs25',
-    brandName: 'GS25',
+    brandName: 'Uniservice Solutions',
     brandColor: '#10b981',
     brandGradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
     translations: {
@@ -134,7 +134,7 @@ export const COMPANY_STORES: { [key: string]: { stores: Store[] } } = {
     stores: [
       {
         id: 1,
-        name: 'GS25 Төв',
+        name: 'Uniservice Solutions Төв',
         lat: 47.9184,
         lng: 106.9177,
         address: 'Сүхбаатар дүүрэг, Улаанбаатар',
@@ -171,7 +171,7 @@ export const COMPANY_STORES: { [key: string]: { stores: Store[] } } = {
       },
       {
         id: 2,
-        name: 'GS25 Багшийн дээд',
+        name: 'Uniservice Solutions Багшийн дээд',
         lat: 47.914,
         lng: 106.905,
         address: 'Багшийн дээд, 1 давхар',
@@ -197,7 +197,7 @@ export const COMPANY_STORES: { [key: string]: { stores: Store[] } } = {
       },
       {
         id: 3,
-        name: 'GS25 Зайсан',
+        name: 'Uniservice Solutions Зайсан',
         lat: 47.887,
         lng: 106.945,
         address: 'Зайсан дүүрэг',

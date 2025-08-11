@@ -105,7 +105,7 @@ const mockInterviews: Interview[] = [
   },
   {
     id: '7',
-    companyName: 'GS25',
+    companyName: 'Uniservice Solutions',
     position: 'Сонгон шалгаруулалт',
     branch: 'Багшийн дээд салбар',
     date: '2025-08-11',
