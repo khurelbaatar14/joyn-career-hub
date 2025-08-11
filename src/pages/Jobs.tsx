@@ -187,8 +187,9 @@ export default function Jobs() {
                 className="cursor-pointer hover:bg-gray-50/50 transition-colors duration-200"
                 onClick={() => toggleJobExpansion(job.id)}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3 flex-1">
+                <div className="space-y-3">
+                  {/* Main content row */}
+                  <div className="flex items-start gap-3">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <Building2 className="h-6 w-6 text-primary" />
                     </div>
@@ -216,28 +217,32 @@ export default function Jobs() {
                         </div>
                       </div>
                     </div>
+                    
+                    {/* Chevron only */}
+                    <div className="flex-shrink-0">
+                      {isJobExpanded(job.id) ? (
+                        <ChevronUp className="h-5 w-5 text-muted-foreground" />
+                      ) : (
+                        <ChevronDown className="h-5 w-5 text-muted-foreground" />
+                      )}
+                    </div>
                   </div>
                   
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    {!isJobExpanded(job.id) && (
+                  {/* Button row - separate for better mobile layout */}
+                  {!isJobExpanded(job.id) && (
+                    <div className="flex justify-end">
                       <Button 
                         size="sm"
-                        className="text-xs px-3 py-1.5 h-auto min-w-0 whitespace-nowrap"
+                        className="text-sm px-4 py-2"
                         onClick={(e) => {
                           e.stopPropagation(); // Prevent card expansion when clicking button
                           navigate(`/interview?job=${job.id}`);
                         }}
                       >
-                        <span className="hidden sm:inline">Ярилцлагад орох</span>
-                        <span className="sm:hidden">Ярилцлага</span>
+                        Ярилцлагад орох
                       </Button>
-                    )}
-                    {isJobExpanded(job.id) ? (
-                      <ChevronUp className="h-5 w-5 text-muted-foreground" />
-                    ) : (
-                      <ChevronDown className="h-5 w-5 text-muted-foreground" />
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </CardHeader>
 
