@@ -13,22 +13,26 @@ export default function JobCard({ job }: { job: Job }) {
         <CardDescription>{job.company}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
-        <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
-          <span>{job.salary}</span>
-          <span>•</span>
-          <span>{job.posted}</span>
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1 space-y-3">
+            <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
+              <span>{job.salary}</span>
+              <span>•</span>
+              <span>{job.posted}</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {job.tags.map((t) => (
+                <Badge key={t} variant="secondary" className="rounded-full">
+                  {t}
+                </Badge>
+              ))}
+              {job.urgent && <Badge className="rounded-full">Яаралтай</Badge>}
+            </div>
+          </div>
+          <Button variant="brand" size="sm" onClick={() => navigate(`/interview?job=${job.id}`)} className="flex-shrink-0">
+            Ярилцлагад орох
+          </Button>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {job.tags.map((t) => (
-            <Badge key={t} variant="secondary" className="rounded-full">
-              {t}
-            </Badge>
-          ))}
-          {job.urgent && <Badge className="rounded-full">Яаралтай</Badge>}
-        </div>
-        <Button variant="brand" size="lg" onClick={() => navigate(`/interview?job=${job.id}`)}>
-          Ярилцлагад орох
-        </Button>
       </CardContent>
     </Card>
   );
