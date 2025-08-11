@@ -219,6 +219,19 @@ export default function Jobs() {
                   </div>
                   
                   <div className="flex items-center gap-2 flex-shrink-0">
+                    {!isJobExpanded(job.id) && (
+                      <Button 
+                        size="sm"
+                        className="text-xs px-3 py-1.5 h-auto min-w-0 whitespace-nowrap"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent card expansion when clicking button
+                          navigate(`/interview?job=${job.id}`);
+                        }}
+                      >
+                        <span className="hidden sm:inline">Ярилцлагад орох</span>
+                        <span className="sm:hidden">Ярилцлага</span>
+                      </Button>
+                    )}
                     {isJobExpanded(job.id) ? (
                       <ChevronUp className="h-5 w-5 text-muted-foreground" />
                     ) : (
@@ -227,22 +240,6 @@ export default function Jobs() {
                   </div>
                 </div>
               </CardHeader>
-
-              {/* Action Button - Always Visible in minimized state */}
-              {!isJobExpanded(job.id) && (
-                <CardContent className="pt-0 pb-4">
-                  <Button 
-                    className="w-full" 
-                    size="lg"
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent card expansion when clicking button
-                      navigate(`/interview?job=${job.id}`);
-                    }}
-                  >
-                    Ярилцлагад орох
-                  </Button>
-                </CardContent>
-              )}
 
               {/* Expanded Details - Only visible when expanded */}
               {isJobExpanded(job.id) && (

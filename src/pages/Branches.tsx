@@ -221,38 +221,49 @@ export default function Branches() {
             onClick={() => toggleStoreExpansion(store.id.toString())}
           >
             <div className="flex items-start justify-between">
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <Building2 className="h-5 w-5 text-primary" />
-                  {store.name}
+                  <span className="truncate">{store.name}</span>
                   {store.distance && (
-                    <Badge variant="secondary" className="ml-2 text-xs">
+                    <Badge variant="secondary" className="text-xs flex-shrink-0">
                       {store.distance.toFixed(1)}км
                     </Badge>
                   )}
                 </CardTitle>
-                <CardDescription className="space-y-1">
+                <CardDescription className="space-y-1 mt-1">
                   <div className="flex items-center gap-1">
-                    <MapPin className="h-4 w-4" />
-                    {store.address}
+                    <MapPin className="h-4 w-4 flex-shrink-0" />
+                    <span className="truncate">{store.address}</span>
                   </div>
-                  {store.phone && (
-                    <div className="flex items-center gap-1 text-xs">
-                      <Phone className="h-3 w-3" />
-                      {store.phone}
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col gap-1">
+                      {store.phone && (
+                        <div className="flex items-center gap-1 text-xs">
+                          <Phone className="h-3 w-3" />
+                          {store.phone}
+                        </div>
+                      )}
+                      {store.hours && (
+                        <div className="flex items-center gap-1 text-xs">
+                          <Clock className="h-3 w-3" />
+                          {store.hours}
+                        </div>
+                      )}
                     </div>
-                  )}
-                  {store.hours && (
-                    <div className="flex items-center gap-1 text-xs">
-                      <Clock className="h-3 w-3" />
-                      {store.hours}
-                    </div>
-                  )}
+                    {/* Move urgent badge to the right side */}
+                    {!expandedStores.has(store.id.toString()) && store.positions.some(p => p.urgent) && (
+                      <Badge variant="destructive" className="text-xs flex-shrink-0">
+                        <TrendingUp className="h-3 w-3 mr-1" />
+                        {getTranslation('urgentHiring')}
+                      </Badge>
+                    )}
+                  </div>
                 </CardDescription>
               </div>
               
-              <div className="flex items-center gap-2">
-                <Badge variant="secondary" className="ml-2">
+              <div className="flex flex-col items-end gap-2 ml-3 flex-shrink-0">
+                <Badge variant="secondary" className="text-xs">
                   {store.positions.length} {getTranslation('positions')}
                 </Badge>
                 {expandedStores.has(store.id.toString()) ? (
@@ -262,16 +273,6 @@ export default function Branches() {
                 )}
               </div>
             </div>
-            
-            {/* Quick preview of urgent positions when minimized */}
-            {!expandedStores.has(store.id.toString()) && store.positions.some(p => p.urgent) && (
-              <div className="mt-2">
-                <Badge variant="destructive" className="text-xs">
-                  <TrendingUp className="h-3 w-3 mr-1" />
-                  {getTranslation('urgentHiring')}
-                </Badge>
-              </div>
-            )}
           </CardHeader>
           
           {/* Expandable Positions Section - Only visible when expanded */}
