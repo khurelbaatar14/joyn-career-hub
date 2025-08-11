@@ -33,6 +33,8 @@ interface UseCompanyDataReturn {
   
   // User location
   userLocation: { lat: number; lng: number } | null;
+  locationError: string | null;
+  locationPermissionDenied: boolean;
   
   // Actions
   setSelectedPositions: (positions: SelectedPosition[]) => void;
@@ -73,6 +75,8 @@ export const useCompanyData = (): UseCompanyDataReturn => {
   
   // User location
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [locationError, setLocationError] = useState<string | null>(null);
+  const [locationPermissionDenied, setLocationPermissionDenied] = useState(false);
   
   // API instance
   const [api] = useState(() => new CareerPageAPI());
@@ -138,6 +142,10 @@ export const useCompanyData = (): UseCompanyDataReturn => {
 
   // Request user location
   const requestLocation = useCallback(() => {
+    // Clear previous errors
+    setLocationError(null);
+    setLocationPermissionDenied(false);
+    
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -146,6 +154,8 @@ export const useCompanyData = (): UseCompanyDataReturn => {
             lng: position.coords.longitude
           };
           setUserLocation(location);
+          setLocationError(null);
+          setLocationPermissionDenied(false);
           
           // Update stores with distance calculations
           const updatedStores = getStoresWithDistance(
@@ -154,22 +164,27 @@ export const useCompanyData = (): UseCompanyDataReturn => {
             getCompanyFromSubdomain()
           );
           setStores(updatedStores);
-          console.log(' Location obtained:', location);
+          console.log('✅ Location obtained:', location);
         },
         (error) => {
           console.warn('Geolocation error:', error);
           // Handle different error types
           switch(error.code) {
             case error.PERMISSION_DENIED:
+              setLocationError('Байршил авахыг зөвшөөрөөгүй байна. Ойролцоох салбаруудыг харуулахын тулд байршлын зөвшөөрөл өгнө үү.');
+              setLocationPermissionDenied(true);
               console.error('User denied the request for Geolocation.');
               break;
             case error.POSITION_UNAVAILABLE:
+              setLocationError('Байршлын мэдээлэл олдсонгүй. Дахин оролдоно уу.');
               console.error('Location information is unavailable.');
               break;
             case error.TIMEOUT:
+              setLocationError('Байршил авах хугацаа дууссан. Дахин оролдоно уу.');
               console.error('The request to get user location timed out.');
               break;
             default:
+              setLocationError('Байршил авахад алдаа гарлаа. Дахин оролдоно уу.');
               console.error('An unknown error occurred.');
               break;
           }
@@ -181,6 +196,7 @@ export const useCompanyData = (): UseCompanyDataReturn => {
         }
       );
     } else {
+      setLocationError('Таны хөтөч байршлын үйлчилгээг дэмждэггүй.');
       console.error('Geolocation is not supported by this browser.');
     }
   }, []);
@@ -281,6 +297,8 @@ export const useCompanyData = (): UseCompanyDataReturn => {
     
     // User location
     userLocation,
+    locationError,
+    locationPermissionDenied,
     
     // Actions
     setSelectedPositions,

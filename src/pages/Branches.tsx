@@ -53,6 +53,8 @@ export default function Branches() {
     dataLoading,
     error,
     userLocation,
+    locationError,
+    locationPermissionDenied,
     setCurrentStep,
     setLanguage,
     handlePositionSelect,
@@ -337,6 +339,31 @@ export default function Branches() {
           />
         </div>
         
+        {/* Location Error Notification */}
+        {locationError && (
+          <div className={`mb-4 p-3 rounded-lg border ${locationPermissionDenied ? 'bg-amber-50 border-amber-200 text-amber-800' : 'bg-red-50 border-red-200 text-red-800'}`}>
+            <div className="flex items-start gap-2">
+              <Navigation className="h-4 w-4 mt-0.5 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm font-medium">
+                  {locationPermissionDenied ? 'Байршлын зөвшөөрөл хэрэгтэй' : 'Байршлын алдаа'}
+                </p>
+                <p className="text-xs mt-1">{locationError}</p>
+                {locationPermissionDenied && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={requestLocation}
+                    className="mt-2 text-xs h-7"
+                  >
+                    Дахин оролдох
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Controls row */}
         <div className="flex items-center justify-between">
           <Button
