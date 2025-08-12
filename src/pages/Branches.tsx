@@ -521,7 +521,7 @@ export default function Branches() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="mx-auto max-w-3xl px-4 pb-24 pt-6">
+      <main className="mx-auto max-w-3xl px-4 pb-32 pt-6">
         <h1 className="mb-3 text-2xl font-bold">
           {currentStep === 'summary' ? getTranslation('selectedPositions') : 'Таны ойролцоох дэлгүүрүүд'}
         </h1>

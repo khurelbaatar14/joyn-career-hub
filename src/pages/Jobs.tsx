@@ -175,7 +175,7 @@ export default function Jobs() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="mx-auto max-w-3xl px-4 pb-24 pt-6">
+      <main className="mx-auto max-w-3xl px-4 pb-32 pt-6">
         <h1 className="mb-3 text-2xl font-bold">Ажлын зарууд</h1>
         <FilterBar value={filters} onChange={setFilters} />
         
@@ -228,12 +228,12 @@ export default function Jobs() {
                     </div>
                   </div>
                   
-                  {/* Button row - separate for better mobile layout */}
+                  {/* Button row - centered for better aesthetics */}
                   {!isJobExpanded(job.id) && (
-                    <div className="flex justify-end">
+                    <div className="flex justify-center pt-2 border-t border-gray-100">
                       <Button 
                         size="sm"
-                        className="text-sm px-4 py-2"
+                        className="text-sm px-6 py-2 w-full max-w-xs"
                         onClick={(e) => {
                           e.stopPropagation(); // Prevent card expansion when clicking button
                           navigate(`/interview?job=${job.id}`);
