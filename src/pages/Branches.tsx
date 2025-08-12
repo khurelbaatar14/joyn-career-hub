@@ -253,9 +253,10 @@ export default function Branches() {
                     </div>
                     {/* Move urgent badge to the right side */}
                     {!expandedStores.has(store.id.toString()) && store.positions.some(p => p.urgent) && (
-                      <Badge variant="destructive" className="text-xs flex-shrink-0">
+                      <Badge variant="destructive" className="text-xs flex-shrink-0 px-2 py-1">
                         <TrendingUp className="h-3 w-3 mr-1" />
-                        {getTranslation('urgentHiring')}
+                        <span className="hidden sm:inline">{getTranslation('urgentHiring')}</span>
+                        <span className="sm:hidden">Яаралтай</span>
                       </Badge>
                     )}
                   </div>
@@ -263,8 +264,9 @@ export default function Branches() {
               </div>
               
               <div className="flex flex-col items-end gap-2 ml-3 flex-shrink-0">
-                <Badge variant="secondary" className="text-xs">
-                  {store.positions.length} {getTranslation('positions')}
+                <Badge variant="secondary" className="text-xs px-2 py-1">
+                  <span className="hidden sm:inline">{store.positions.length} {getTranslation('positions')}</span>
+                  <span className="sm:hidden">{store.positions.length} Ажил</span>
                 </Badge>
                 {expandedStores.has(store.id.toString()) ? (
                   <ChevronDown className="h-4 w-4 text-muted-foreground" />
